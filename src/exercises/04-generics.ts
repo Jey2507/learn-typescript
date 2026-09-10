@@ -41,7 +41,7 @@ console.log(n, s);
  *    тому TS перевірить, що ти передаєш існуючу назву поля, і правильно
  *    виведе тип значення цього поля.
  */
-
+  
 function pluck<T, K extends keyof T>(items: T[], key: K): T[K][] {
   return items.map((item) => item[key]);
 }
@@ -78,6 +78,7 @@ const shapes: Shape[] = [
 ];
 
 const filteredBad = shapes.filter((s) => s.kind === "square");
+void filteredBad;
 // filteredBad має тип Shape[], а НЕ Square[], хоч ми точно знаємо,
 // що тут лежать тільки квадрати. Тому s.side нижче викличе помилку:
 // filteredBad[0].side; // ПОМИЛКА: Property 'side' does not exist on type 'Shape'
@@ -128,12 +129,49 @@ console.log(squares[0].side); // ok, TS знає, що це Square
  */
 
 // 1.
+function last <T>(arr: T[]): T | undefined {
+  return arr[arr.length - 1]
+}
 
+console.log(last([1, 2, 3, 4, 5, 6, 7]))
+console.log(last(["a", "d", "f", "hi"]))
 
 // 2.
 
+const books = [
+        { title: "Дюна", year: 1965 },
+        { title: "1984", year: 1949 },
+ ];
+const nameBook = pluck(books, "title"); 
+const year = pluck(books, "year"); 
+console.log(nameBook, year);
 
 // 3.
 
+type Car = { kind: "car"; wheels: 4; fuel: "petrol" | "electric" }
+type Bike = { kind: "bike"; wheels: 2 }
+type Vehicle = Car | Bike
+
+const vehicles: Vehicle[] = [
+  { kind: "car", wheels: 4, fuel: "petrol" },
+  { kind: "bike", wheels: 2 },
+  { kind: "car", wheels: 4, fuel: "electric" },
+];
+
+function isCar(v: Vehicle): v is Car {
+  return v.kind === "car"
+}
+
+const cars = vehicles.filter(isCar)
+cars.forEach((c) => console.log(c.fuel))
 
 // 4.
+
+const foundCar = vehicles.find(isCar); // тип: Car | undefined
+
+if (foundCar) {
+  // тут TS звузив тип foundCar до Car (бо ми в блоці, де воно "правдиве")
+  console.log(`Знайдена машина працює на: ${foundCar.fuel}`);
+} else {
+  console.log("Машину не знайдено");
+}
