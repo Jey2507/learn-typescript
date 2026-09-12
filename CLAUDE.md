@@ -52,8 +52,14 @@
       розуміння через 2 контрольні питання (чому `Car | undefined`, що
       робить narrowing в `if`) — відповів правильно на обидва, тема засвоєна,
       просто потребувала більше повторів/прикладів ніж 01-03.
-- [ ] 05-utility-types.ts — `Partial`, `Pick`, `Omit`, `Record`,
-      `ReturnType` тощо.
+- [x] 05-utility-types.ts — `Partial`, `Required`, `Readonly`, `Pick`,
+      `Omit`, `Record`. Виконано. `Record<K, V>` знадобилось пояснити
+      двічі — спершу як "готовий generic" (у теорії файлу), потім окремо
+      детально розібрати, чому перший type-параметр не завжди `string`
+      (порівняння `Record<string, X>` з довільними ключами проти
+      `Record<SomeLiteralUnion, X>` з фіксованим, перевіреним набором
+      ключів) — після цього клацнуло. `ReturnType` в файл не включав,
+      не було потреби, можна дати як бонус пізніше за нагоди.
 - [ ] 06-classes.ts — класи, `implements`, модифікатори доступу
       (`private`/`protected`/`public`), abstract class.
 - [ ] 07-unknown-and-external-data.ts — `unknown` vs `any`, narrowing

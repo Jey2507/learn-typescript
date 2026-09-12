@@ -136,13 +136,55 @@ console.log(catalog["1"]?.name); // ?. на випадок, якщо таког�
  * Пиши код нижче.
  */
 
-// 1.
+ type Article = {
+      id: number;
+      title: string;
+      content: string;
+      author: string;
+      published: boolean;
+   };
 
+// 1.
+type ArticlePatch = Partial<Article>
+
+function updateArticle(article: Article, patch: ArticlePatch): Article {
+  return {...article, ...patch}
+}
+
+
+const t1: Article = { id: 1, title: "Sun", content: "Yeah", author: "me", published: true };
+const t2 = updateArticle(t1, { published: false });
+console.log(t2);
 
 // 2.
 
+type ArticlePreview = Pick<Article, "id" | "title" | "author">
+
+function toArticlePreview(article: Article): ArticlePreview {
+  return {id: article.id, title: article.title, author: article.author}
+}
+
+console.log(toArticlePreview(t1))
 
 // 3.
 
+type ArticleWithoutContent = Omit<Article, "content">
+
+function hideContent(article: Article): ArticleWithoutContent {
+  const {content, ...rest} = article
+  return rest
+}
+
+console.log(hideContent(t1));
 
 // 4.
+type ArticlesById = Record<string, Article>
+
+const shelder: ArticlesById = {
+  "1": t1,
+  "2": {id: 2, title: "okey", content: "lets go", author: "you", published: false},
+  "3": {id: 3, title: "wow", content: " hmmm", author: "claude", published: true}
+}
+
+console.log(shelder["1"]); 
+console.log(shelder["3"]?.title); 
